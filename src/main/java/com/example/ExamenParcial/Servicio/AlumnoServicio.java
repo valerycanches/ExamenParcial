@@ -24,7 +24,24 @@ public class AlumnoServicio {
         return repositorio.findById(id).orElse(null);
     }
 
+    public AlumnoModelo actualizarAlumno(int id, AlumnoModelo alumnoActualizado) {
+        // Verificar si el alumno existe
+        AlumnoModelo alumnoExistente = repositorio.findById(id).orElse(null);
+        if (alumnoExistente != null) {
+            // Actualizar los campos
+            alumnoExistente.setNombre(alumnoActualizado.getNombre());
+            alumnoExistente.setNota(alumnoActualizado.getNota());
+            // Agrega más campos si es necesario
+    
+            // Guardar los cambios
+            return repositorio.save(alumnoExistente);
+        }
+        return null; // O manejar el caso de que el alumno no exista
+    }
+    
+
     public void eliminarAlumno(int id) {
         repositorio.deleteById(id);
     }
+    
 }
