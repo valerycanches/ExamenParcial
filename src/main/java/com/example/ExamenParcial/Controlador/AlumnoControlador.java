@@ -41,6 +41,23 @@ public class AlumnoControlador {
         }
     }
 
+    @PutMapping("/{id}")
+    public AlumnoModelo actualizar(@PathVariable int id, @RequestBody AlumnoModelo alumno) {
+        try {
+            // Verificar si el alumno existe antes de intentar actualizar
+            AlumnoModelo existente = servicio.obtenerAlumnoPorId(id);
+            if (existente == null) {
+                throw new RuntimeException("No se encontró un alumno con ID " + id);
+            }
+
+            // Establecer el ID del alumno al objeto recibido
+            alumno.setId(id);
+            return servicio.guardarAlumno(alumno); // Reutilizar método de guardar
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar el alumno con ID " + id + ": " + e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public String eliminar(@PathVariable int id) {
         try {
